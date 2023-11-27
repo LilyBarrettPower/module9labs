@@ -14,7 +14,6 @@ const getPosts = (res) => {
 //takes two arguments (JSON and res obj) and creating new user using data created from request
 const createPost = (data, res) => {
         Models.Post.create(data)
-        .save()
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
             console.log(err);

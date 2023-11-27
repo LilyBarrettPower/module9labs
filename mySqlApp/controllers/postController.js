@@ -3,7 +3,7 @@ let Models = require("../models"); //matches index.js
 
 const getPosts = (res) => {
     //finds all users
-    Models.Post.find({})
+    Models.Post.findAll()
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
             console.log(err);
@@ -13,9 +13,7 @@ const getPosts = (res) => {
 
 //takes two arguments (JSON and res obj) and creating new user using data created from request
 const createPost = (data, res) => {
-    //creates a new user using JSON data from request body
-    console.log(data)
-    new Models.Post(data)
+        Models.Post.create(data)
         .save()
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
@@ -26,11 +24,7 @@ const createPost = (data, res) => {
 
 //this is the controller
 const updatePost = (req, res) => {
-    //updates the user matching the ID from the param using JSON data POSTed in request body
-    console.log(req.body)
-
-    Models.Post.findByIdAndUpdate(req.params.id, req.body, {
-        useFindAndModify: false
+    Models.Post.update(req.body, { where: { id: req.params.id}
     })
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
@@ -40,8 +34,8 @@ const updatePost = (req, res) => {
 }
 const deletePost = (req, res) => {
     //deletes the user matching the ID from the param
-    Models.Post.findByIdAndDelete(req.params.id, req.body, {
-        useFindAndModify: false,
+    Models.Post.destroy({
+        where: { id: req.params.id }
     })
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {

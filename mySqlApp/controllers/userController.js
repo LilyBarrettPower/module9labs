@@ -1,9 +1,9 @@
 "use strict";
 let Models = require("../models"); //matches index.js
 
-const getPosts = (res) => {
+const getUsers = (res) => {
     //finds all users
-    Models.Post.find({})
+    Models.User.findAll()
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
             console.log(err);
@@ -11,12 +11,8 @@ const getPosts = (res) => {
         });
 };
 
-//takes two arguments (JSON and res obj) and creating new user using data created from request
-const createPost = (data, res) => {
-    //creates a new user using JSON data from request body
-    console.log(data)
-    new Models.Post(data)
-        .save()
+const createUser = (data, res) => {
+    Models.User.create(data)
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
             console.log(err);
@@ -25,12 +21,9 @@ const createPost = (data, res) => {
 };
 
 //this is the controller
-const updatePost = (req, res) => {
-    //updates the user matching the ID from the param using JSON data POSTed in request body
-    console.log(req.body)
-
-    Models.Post.findByIdAndUpdate(req.params.id, req.body, {
-        useFindAndModify: false
+const updateUser = (req, res) => {
+    Models.User.update(req.body, {
+        where: { id: req.params.id }
     })
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
@@ -38,10 +31,10 @@ const updatePost = (req, res) => {
             res.send({ result: 500, error: err.message })
         });
 }
-const deletePost = (req, res) => {
+const deleteUser = (req, res) => {
     //deletes the user matching the ID from the param
-    Models.Post.findByIdAndDelete(req.params.id, req.body, {
-        useFindAndModify: false,
+    Models.User.destroy({
+        where: { id: req.params.id }
     })
         .then(data => res.send({ result: 200, data: data }))
         .catch(err => {
@@ -51,8 +44,8 @@ const deletePost = (req, res) => {
 }
 
 module.exports = {
-    getPosts,
-    createPost,
-    updatePost,
-    deletePost
+    getUsers,
+    createUser,
+    updateUser,
+    deleteUser
 };

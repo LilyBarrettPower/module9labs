@@ -6,7 +6,7 @@ const router = express.Router();
 const catFactController = require('../controllers/catFactController');
 
 
-// create the route to the fake store API 
+
 router.get("/", (req, res) => {
     const limit = req.query.limit || null;
     catFactController.getFacts(limit, res)

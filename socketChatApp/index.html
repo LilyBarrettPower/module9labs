@@ -63,9 +63,14 @@
 
 <body>
         <ul id="messages"></ul>
+        <p id="typing-message"></p>
         <form id="form" action="">
-            <input id="input" autocomplete="off" /><button>Send</button>
+            <!-- Q2 - create an input for nickname -->
+            <input id="nickname" placeholder="Create nickname" autocomplete="off"/>
+            <input id="input" autocomplete="off" />
+            <button>Send</button>
         </form>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io();
@@ -73,21 +78,71 @@
     var messages = document.getElementById('messages');
     var form = document.getElementById('form');
     var input = document.getElementById('input');
+    var nicknameInput = document.getElementById('nickname');
+    var joinedChat = false;
+    var isTyping = false;
+    var typingMessage = document.getElementById('typing-message')
+
+    input.addEventListener('input', function () {
+        if(!isTyping) {
+            isTyping = true;
+            socket.emit('typing', true);
+        }
+    });
+
+    input.addEventListener('change', function() {
+        if(isTyping) {
+            isTyping = false;
+            socket.emit('typing', false);
+            clearTypingMessage();
+        }
+    });
+
+    function clearTypingMessage() {
+        typingMessage.textContent = '';
+    }
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (input.value) {
+
+        // console.log("nickname", nicknameInput.value);
+        // console.log("message", input.value)
+
+        if (nicknameInput.value && input.value) {
+            if(!joinedChat) {
+                socket.emit('set nickname', nicknameInput.value);
+                joinedChat = true;
+            }
+            // appendMessage(`${nicknameInput.value}: ${input.value}`);
             socket.emit('chat message', input.value);
+            input.value = '';
+            nicknameInput.disabled = true;
+            input.focus(); 
+        } else if (input.value) {
+            socket.emit('chat message', input.value);
+            appendMessage(`${socket.nickname}: ${input.value}`)
+            clearTypingMessage();
             input.value = '';
         }
     });
 
     socket.on('chat message', function (msg) {
-        var item = document.createElement('li');
-        item.textContent = msg;
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
+        if(!msg.startsWith(`${socket.nickname}: `)) {
+            appendMessage(msg);
+        }
     });
+
+    socket.on('typing', function (data) {
+        typingMessage.textContent = data.isTyping ? `${data.nickname} is typing...` : '';
+    });
+
+        function appendMessage(msg) {
+            var item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
 </script>
 
 

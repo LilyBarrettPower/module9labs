@@ -14,13 +14,16 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     connectedUsers.add(socket.id);
 
-    io.emit('update online users', Array.from(connectedUsers)); //NOT SURE ABT THIS HERE
+    // emit the update online users event
+    io.emit('update online users', Array.from(connectedUsers)); 
+    // emit the chat message event
     io.emit('chat message', 'A user has connected');
 
     // Q2 - add support for adding nicknames
     socket.on('set nickname', (nickname) => {
         socket.nickname = nickname;
         connectedUsers.add(socket.nickname);
+        // emit the update online users event
         io.emit('update online users', Array.from(connectedUsers));
             socket.broadcast.emit('chat message', `${nickname} has joined the chat`);
 
@@ -30,7 +33,7 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
             io.emit('chat message', `${socket.nickname}: ${msg}`);
         });
-
+// Q4 - emit the typing event
     socket.on('typing', (isTyping) => {
         socket.broadcast.emit('typing', {
             nickname: socket.nickname,

@@ -2,6 +2,7 @@ let express = require("express"); // require express
 let router = express.Router(); // use express.Router
 let Controllers = require("../controllers"); //index.js
 
+// create the routes to get, post, put and delete posts using the postController 
 router.get('/', (req, res) => {
     Controllers.postController.getPosts(res);
 });

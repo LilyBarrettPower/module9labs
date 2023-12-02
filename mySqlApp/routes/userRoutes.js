@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Controllers = require("../controllers");
 
+// create the routes to get, post, put and delete users using the userController
 router.get('/', (req, res) => {
     Controllers.userController.getUsers(res);
 });

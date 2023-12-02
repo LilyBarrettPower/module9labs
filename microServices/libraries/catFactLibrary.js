@@ -1,8 +1,11 @@
+// fetch the cat fact infomration from the external API
 class CatFactLibrary{
+    // initialise the class with an empty string for storing the fetched data 
     constructor() {
         this.facts = ""
     }
     async fetchFacts(limit) {
+        // asyncronously fetch the cat fact data using teh retrieveFacts function
         try {
             this.facts = await this.retrieveFacts(limit);
             return this.facts;
@@ -12,6 +15,7 @@ class CatFactLibrary{
     }
 
     async retrieveFacts(limit) {
+        // asyncronously fetch the cat fact data from the api with the optional limit parameter 
         try {
             let apiURL = 'https://catfact.ninja/facts';
             if (limit) {

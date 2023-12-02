@@ -3,6 +3,7 @@ let dbConnect = require("../dbConnect");
 const sequelizeInstance = dbConnect.Sequelize;
 class Post extends Model { }
 //Sequelize will create this table if it doesn't exist on startup
+// create the post model using your physical model
 Post.init({
     id: {
         type: DataTypes.INTEGER, allowNull: false, autoIncrement:

@@ -2,6 +2,7 @@ let express = require("express"); // require express
 let router = express.Router(); // use express.Router
 let Controllers = require("../controllers"); //index.js
 
+// create the users routes using the controllers 
 router.get('/', (req, res) => {
     Controllers.userController.getUsers(res);
 });

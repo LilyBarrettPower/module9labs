@@ -3,6 +3,7 @@ let dbConnect = require("../dbConnect");
 const sequelizeInstance = dbConnect.Sequelize;
 class User extends Model { }
 //Sequelize will create this table if it doesn't exist on startup
+// create the users model referring to your physical model
 User.init({
     id: {
         type: DataTypes.INTEGER, allowNull: false, autoIncrement:

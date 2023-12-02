@@ -10,10 +10,10 @@ app.get("/", (req, res) => {
     res.json({
         message: "Welcome to my mySQL application." });
 });
-
+// use the user Routes
 let userRoutes = require('./routes/userRoutes')
 app.use('/api/users', userRoutes)
-
+// use the post routes
 let postRoutes = require('./routes/postRoutes')
 app.use('/api/posts', postRoutes)
 

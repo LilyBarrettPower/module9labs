@@ -9,6 +9,7 @@ const port = 3004;
 
 serverApp.use(express.json());
 
+// use the routes
 serverApp.use('/api/catfacts', catFactRoute);
 
 

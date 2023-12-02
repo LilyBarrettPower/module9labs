@@ -2,7 +2,7 @@ const express = require("express"); // require express
 const app = express(); // create the express application 
 require("dotenv").config(); // require dotenv to use the environment variables 
 
-let dbConnect = require('./dbConnect')
+let dbConnect = require('./dbConnect') // require db after the dotenv because db uses dotenv 
 
 app.use(express.json());
 

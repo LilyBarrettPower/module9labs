@@ -1,6 +1,7 @@
 "use strict";
 let Models = require("../models"); //matches index.js
 
+// create the controllers to get, post, put and delete posts 
 const getPosts = (res) => {
     //finds all users
     Models.Post.findAll()
